@@ -29,7 +29,12 @@ const reducer = (state, action) => {
 
   switch (action.type) {
     case "SIGNUP":
-      fetch("http://localhost:3000/register", {
+      console.log("==>", process.env.NODE_ENV);
+      const url =
+        process.env.NODE_ENV === "development"
+          ? "http://localhost:3000"
+          : "https://sclean.herokuapp.com";
+      fetch(`${url}/register`, {
         method: "post",
         headers: { "Content-Type": "application/json" },
         mode: "cors",
