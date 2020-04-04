@@ -1,6 +1,6 @@
 import React from "react";
 import LoginLocalStrategy from "../components/login-local-strategy";
-import { UserContextProvider } from "../context/user-context";
+// import { UserContextProvider } from "../context/user-context";
 
 export default function Login() {
   /* 
@@ -22,8 +22,8 @@ export default function Login() {
     */
 
   return (
-    <UserContextProvider>
-      <LoginLocalStrategy />
-    </UserContextProvider>
+    // <UserContextProvider>
+    <LoginLocalStrategy />
+    // </UserContextProvider>
   );
 }

@@ -4,8 +4,8 @@ import _ from "lodash";
 import { UserContext } from "../context/user-context";
 
 export default function LoginLocalStrategy() {
-  const name = useFormInput("");
   const email = useFormInput("");
+  const password = useFormInput("");
   // eslint-disable-next-line no-unused-vars
   const [state, dispatch] = useContext(UserContext);
 
@@ -14,13 +14,13 @@ export default function LoginLocalStrategy() {
       type: "LOGIN",
       payload: {
         id: _.uniqueId(10),
-        name: name.value,
-        email: email.value
+        email: email.value,
+        password: password.value
       }
     });
     // Reset Form
-    name.onReset();
     email.onReset();
+    password.onReset();
   };
 
   return (
@@ -28,14 +28,19 @@ export default function LoginLocalStrategy() {
       <Form onSubmit={onSubmit}>
         <Form.Group widths="3">
           <Form.Field width={6}>
-            <Input placeholder="Enter Name" {...name} required />
+            <Input placeholder="Enter Email" {...email} type="email" required />
           </Form.Field>
           <Form.Field width={6}>
-            <Input placeholder="Enter Email" {...email} type="email" required />
+            <Input
+              placeholder="Enter Password"
+              {...password}
+              type="password"
+              required
+            />
           </Form.Field>
           <Form.Field width={4}>
             <Button fluid primary>
-              New Contact
+              Login
             </Button>
           </Form.Field>
         </Form.Group>

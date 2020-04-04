@@ -24,16 +24,15 @@ const initialState = {
   error: null
 };
 
+const url =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:3000"
+    : "https://sclean.herokuapp.com";
+
 const reducer = (state, action) => {
   console.log("action", action);
-
   switch (action.type) {
     case "SIGNUP":
-      console.log("==>", process.env.NODE_ENV);
-      const url =
-        process.env.NODE_ENV === "development"
-          ? "http://localhost:3000"
-          : "https://sclean.herokuapp.com";
       fetch(`${url}/register`, {
         method: "post",
         headers: { "Content-Type": "application/json" },
@@ -58,11 +57,44 @@ const reducer = (state, action) => {
         }
       };
     case "LOGIN":
+      fetch(`${url}/login`, {
+        method: "post",
+        headers: { "Content-Type": "application/json" },
+        mode: "cors",
+        body: JSON.stringify({
+          email: action.payload.email,
+          password: action.payload.password
+        })
+      })
+        .then(res => {
+          console.log("res", res);
+          return res;
+        })
+        .then(res => (res.ok ? res : Promise.reject(res)))
+        .then(res => res.json())
+        .catch(err => err);
+
       return {
-        contacts: state.contacts.filter(
-          contact => contact.id !== action.payload
-        )
+        user: {
+          email: action.payload.email,
+          password: action.payload.password
+        }
       };
+    case "LOGOUT":
+      console.log("epa");
+      fetch(`${url}/logout`, {
+        method: "get",
+        headers: { "Content-Type": "application/json" },
+        mode: "cors"
+      })
+        .then(res => {
+          console.log("res", res);
+          return res;
+        })
+        // .then(res => (res.ok ? res : Promise.reject(res)))
+        // .then(res => res.json())
+        .catch(err => err);
+      return { user: null };
     default:
       throw new Error();
   }
